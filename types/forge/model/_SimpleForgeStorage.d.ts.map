@@ -1,0 +1,1 @@
+{"version":3,"file":"_SimpleForgeStorage.d.ts","sourceRoot":"","sources":["../../../Forge-Source/ts/forge/model/_SimpleForgeStorage.ts"],"names":[],"mappings":"AAAA,OAAO,EAAqB,WAAW,EAAE,MAAM,uBAAuB,CAAC;AAEvE,OAAO,EAAE,UAAU,EAAE,MAAM,cAAc,CAAC;AAE1C,qBAAa,kBAAmB,SAAQ,UAAU;YAEhC,UAAU;IA0BjB,OAAO,CAAC,WAAW,EAAE,WAAW,GAAG,IAAI;CAwDjD"}

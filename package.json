@@ -1,22 +1,24 @@
 {
   "name": "onyx-ignition-forge-core",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Warning: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/drew-eastmond/Forge-Core.git"
   },
-  "author": "",
+  "author": "Drew Eastmond",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/drew-eastmond/Forge-Core/issues"
   },
   "homepage": "https://github.com/drew-eastmond/Forge-Core#readme",
   "devDependencies": {
+    "@types/node": "^20.10.5",
     "chokidar": "^3.5.3",
     "compression": "^1.7.4",
     "esbuild": "^0.19.5",

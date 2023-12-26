@@ -5,3 +5,5 @@ Force-Source
 .gitmodules
 test.js
 .graveyard
+/pnpm-lock.yaml
+
