@@ -1,0 +1,1 @@
+{"version":3,"file":"Debounce.d.ts","sourceRoot":"","sources":["../../../Forge-Source/ts/core/timing/Debounce.ts"],"names":[],"mappings":"AAEA,qBAAa,SAAS;IAElB,OAAO,CAAC,QAAQ,CAAC,YAAY,CAA2C;;IAkCjE,QAAQ,CAAC,QAAQ,EAAE,QAAQ,EAAE,UAAU,EAAE,OAAO,EAAE,EAAE,KAAK,EAAE,MAAM,GAAG,IAAI;IA4BxE,KAAK,IAAI,IAAI;IAUb,KAAK,IAAI,IAAI;CAOvB"}
