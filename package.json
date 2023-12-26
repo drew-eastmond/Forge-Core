@@ -25,8 +25,5 @@
     "glob": "^10.3.10",
     "mime-types": "^2.1.35",
     "uglify-js": "^3.17.4"
-  },
-  "dependencies": {
-    
   }
 }

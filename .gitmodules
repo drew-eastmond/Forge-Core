@@ -1,0 +1,3 @@
+[submodule "Forge-Source"]
+	path = Forge-Source
+	url = git@github.com:drew-eastmond/Forge-Source.git
