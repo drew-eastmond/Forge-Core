@@ -3,5 +3,4 @@ build.js
 Force-Source
 .vs
 .gitmodules
-pnpm-lock.yaml
 /test.js
