@@ -16727,9 +16727,6 @@ var require_lib = __commonJS({
       }
       require_extend_node()(iconv);
     }
-    if (false) {
-      console.error("iconv-lite warning: javascript files use encoding different from utf-8. See https://github.com/ashtuchkin/iconv-lite/wiki/Javascript-source-file-encodings for more info.");
-    }
     var nodeVerArr;
   }
 });
@@ -40451,4 +40448,4 @@ compression/index.js:
 module.exports["index"] = {  }// (Forge) Footer:
 
 
-console.log("templated via plugin")
+console.log("templated via plugin");
