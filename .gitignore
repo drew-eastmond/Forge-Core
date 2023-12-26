@@ -3,5 +3,5 @@ build.js
 Force-Source
 .vs
 .gitmodules
-/test.js
+test.js
 .graveyard
