@@ -1,9 +1,17 @@
 {
-  "name": "onyx-ignition-forge-core",
+  "name": "onyx-ignition/forge-core",
   "version": "1.0.2",
   "description": "",
-  "main": "index.js",
-  "types": "./types/index.d.ts",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types":  "/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.mjs",
+      "types": "/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "echo \"Warning: no test specified\" && exit 0"
   },
