@@ -5,8 +5,7 @@ name: Node.js Package
 
 on:
   pull_request:
-    types:
-      - opened
+    types: [opened, edited]
 
 jobs:
   build:
