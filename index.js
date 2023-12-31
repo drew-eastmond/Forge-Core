@@ -2,10 +2,35 @@ console.log("Drew header is installed2");
 
 // (Forge) Header:
 
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 
 // node_modules/.pnpm/mime-db@1.52.0/node_modules/mime-db/db.json
 var require_db = __commonJS({
@@ -13300,7 +13325,7 @@ var require_fill_range = __commonJS({
     var util = require("util");
     var toRegexRange = require_to_regex_range();
     var isObject = (val) => val !== null && typeof val === "object" && !Array.isArray(val);
-    var transform2 = (toNumber) => {
+    var transform = (toNumber) => {
       return (value) => toNumber === true ? Number(value) : String(value);
     };
     var isValidValue = (value) => {
@@ -13421,7 +13446,7 @@ var require_fill_range = __commonJS({
       let padded = zeros(startString) || zeros(endString) || zeros(stepString);
       let maxLen = padded ? Math.max(startString.length, endString.length, stepString.length) : 0;
       let toNumber = padded === false && stringify(start, end, options) === false;
-      let format = options.transform || transform2(toNumber);
+      let format = options.transform || transform(toNumber);
       if (options.toRegex && step === 1) {
         return toRange(toMaxLen(start, maxLen), toMaxLen(end, maxLen), true, options);
       }
@@ -15128,7 +15153,7 @@ var require_fsevents_handler = __commonJS({
        * @param {Function} globFilter - path filter in case a glob pattern was provided
        * @returns {Function} closer for the watcher instance
       */
-      _watchWithFsEvents(watchPath, realPath, transform2, globFilter) {
+      _watchWithFsEvents(watchPath, realPath, transform, globFilter) {
         if (this.fsw.closed || this.fsw._isIgnored(watchPath))
           return;
         const opts = this.fsw.options;
@@ -15137,7 +15162,7 @@ var require_fsevents_handler = __commonJS({
             return;
           if (opts.depth !== void 0 && calcDepth(fullPath, realPath) > opts.depth)
             return;
-          const path8 = transform2(sysPath.join(
+          const path8 = transform(sysPath.join(
             watchPath,
             sysPath.relative(watchPath, fullPath)
           ));
@@ -15195,7 +15220,7 @@ var require_fsevents_handler = __commonJS({
        * @param {Number} curDepth level of subdirectories traversed to where symlink is
        * @returns {Promise<void>}
        */
-      async _handleFsEventsSymlink(linkPath, fullPath, transform2, curDepth) {
+      async _handleFsEventsSymlink(linkPath, fullPath, transform, curDepth) {
         if (this.fsw.closed || this.fsw._symlinkPaths.has(fullPath))
           return;
         this.fsw._symlinkPaths.set(fullPath, true);
@@ -15215,7 +15240,7 @@ var require_fsevents_handler = __commonJS({
             } else if (path8 !== DOT_SLASH) {
               aliasedPath = sysPath.join(linkPath, path8);
             }
-            return transform2(aliasedPath);
+            return transform(aliasedPath);
           }, false, curDepth);
         } catch (error) {
           if (this.fsw._handleError(error)) {
@@ -15261,12 +15286,12 @@ var require_fsevents_handler = __commonJS({
        * @param {Number=} priorDepth Level of subdirectories already traversed.
        * @returns {Promise<void>}
        */
-      async _addToFsEvents(path8, transform2, forceAdd, priorDepth) {
+      async _addToFsEvents(path8, transform, forceAdd, priorDepth) {
         if (this.fsw.closed) {
           return;
         }
         const opts = this.fsw.options;
-        const processPath = typeof transform2 === FUNCTION_TYPE ? transform2 : IDENTITY_FN;
+        const processPath = typeof transform === FUNCTION_TYPE ? transform : IDENTITY_FN;
         const wh = this.fsw._getWatchHelpers(path8);
         try {
           const stats = await statMethods[wh.statMethod](wh.watchPath);
@@ -15312,7 +15337,7 @@ var require_fsevents_handler = __commonJS({
           }
         }
         if (opts.persistent && forceAdd !== true) {
-          if (typeof transform2 === FUNCTION_TYPE) {
+          if (typeof transform === FUNCTION_TYPE) {
             this.initWatch(void 0, path8, wh, processPath);
           } else {
             let realPath;
@@ -29973,12 +29998,12 @@ var require_formats = __commonJS({
     "use strict";
     var replace = String.prototype.replace;
     var percentTwenties = /%20/g;
-    var Format2 = {
+    var Format = {
       RFC1738: "RFC1738",
       RFC3986: "RFC3986"
     };
     module2.exports = {
-      "default": Format2.RFC3986,
+      "default": Format.RFC3986,
       formatters: {
         RFC1738: function(value) {
           return replace.call(value, percentTwenties, "+");
@@ -29987,8 +30012,8 @@ var require_formats = __commonJS({
           return String(value);
         }
       },
-      RFC1738: Format2.RFC1738,
-      RFC3986: Format2.RFC3986
+      RFC1738: Format.RFC1738,
+      RFC3986: Format.RFC3986
     };
   }
 });
@@ -36619,6 +36644,16 @@ var require_compression = __commonJS({
 
 // (Forge) Section: ts\core\Core.ts
 
+var Core_exports = {};
+__export(Core_exports, {
+  $UsePromise: () => $UsePromise,
+  $UseRace: () => $UseRace,
+  DecodeBase64: () => DecodeBase64,
+  EmptyFunction: () => EmptyFunction,
+  EncodeBase64: () => EncodeBase64,
+  FlattenObject: () => FlattenObject,
+  QuickHash: () => QuickHash
+});
 var __HashCount = 0;
 function __CatchException(error) {
   return error;
@@ -36776,6 +36811,12 @@ var Accessor = class {
 
 // (Forge) Section: ts\core\Argument.ts
 
+var Argument_exports = {};
+__export(Argument_exports, {
+  CLIArguments: () => CLIArguments,
+  CompositeArguments: () => CompositeArguments,
+  EnvArguments: () => EnvArguments
+});
 var AbstractArguments = class {
   _args = {};
   _validationMap = /* @__PURE__ */ new Map();
@@ -36978,6 +37019,10 @@ var CompositeArguments = class extends AbstractArguments {
 
 // (Forge) Section: ts\core\collection\Tree.ts
 
+var Tree_exports = {};
+__export(Tree_exports, {
+  Tree: () => Tree
+});
 var Tree = class {
   _instanceSet = /* @__PURE__ */ new Set();
   _parentMap = /* @__PURE__ */ new Map();
@@ -37071,6 +37116,13 @@ var Tree = class {
 
 // (Forge) Section: ts\core\Debug.ts
 
+var Debug_exports = {};
+__export(Debug_exports, {
+  ColourFormattingReset: () => ColourFormattingReset,
+  DebugBackground: () => DebugBackground,
+  DebugForeground: () => DebugForeground,
+  DebugFormatter: () => DebugFormatter
+});
 var DebugForeground = /* @__PURE__ */ ((DebugForeground2) => {
   DebugForeground2["Black"] = "\x1B[30m";
   DebugForeground2["Red"] = "\x1B[31m";
@@ -37277,8 +37329,117 @@ console.parse = function(...rest) {
   }));
 };
 
+// (Forge) Section: ts\core\Enforcement.ts
+
+var Enforcement_exports = {};
+__export(Enforcement_exports, {
+  $Enforce: () => $Enforce,
+  Enforce: () => Enforce
+});
+function $Enforce(overloadA, overloadB) {
+  let $values;
+  let $inquiries;
+  if (Symbol.iterator in overloadA && overloadB === void 0) {
+    $values = [];
+    $inquiries = [];
+    for (const [$value, $inquiry] of overloadA) {
+      $values.push($value);
+      $inquiries.push($inquiry);
+    }
+  } else if (overloadA && (overloadB instanceof Promise || overloadB instanceof Function)) {
+    $values = overloadA;
+    $inquiries = [];
+    for (let i = 0; i < $values.length; i++) {
+      $inquiries.push(overloadB);
+    }
+  } else if (overloadA instanceof Array && overloadB instanceof Array && overloadA.length == overloadB.length) {
+    $values = overloadA;
+    $inquiries = overloadB;
+  } else {
+    throw new Error(`Parameters are incorrenct for $Enforce(${overloadA}, ${overloadB}));`);
+  }
+  return new Promise(async function(resolve, reject) {
+    const $enforcement = new Enforcement($values, $inquiries);
+    await $enforcement.$enforce();
+    $enforcement.$finalize(resolve, reject);
+  });
+}
+;
+function Enforce(values, inquiries) {
+}
+function __$FinalizeEveryRejection(value, index, array) {
+  console.warn("checking", value);
+  return value === void 0;
+}
+var Enforcement = class {
+  $values;
+  $inquiries;
+  resolves;
+  rejections;
+  all;
+  constructor($values, $inquiries) {
+    this.$values = $values;
+    this.$inquiries = $inquiries;
+    this.resolves = [];
+    this.rejections = [];
+    this.all = [];
+  }
+  _thenAllSettle = function(results) {
+    console.log(results);
+    for (const result of results) {
+      this.all.push(result);
+      if (result.status == "fulfilled") {
+        this.resolves.push(result.value);
+        this.rejections.push(void 0);
+      } else {
+        this.resolves.push(void 0);
+        this.rejections.push(result.reason);
+      }
+    }
+  }.bind(this);
+  async $enforce() {
+    const $promises = [];
+    for (let i = 0; i < this.$values.length; i++) {
+      const $value = this.$values[i];
+      const $inquiry = this.$inquiries[i];
+      let $result;
+      if ($inquiry instanceof Function) {
+        $result = $inquiry($value);
+        $result = $result instanceof Promise ? $result : Promise.resolve($result);
+      } else if ($inquiry instanceof Promise) {
+        $result = Promise.race([$value, $inquiry]);
+      } else {
+        throw new Error(`Enforcement.$enforce() has been passed an invalid inquiry : ${$inquiry}`);
+      }
+      $promises.push($result);
+    }
+    console.error("all settled", $promises);
+    return Promise.allSettled($promises).then(this._thenAllSettle);
+  }
+  $render($result) {
+    $result.then(function(value) {
+    }).catch(function(value) {
+      console.error("%cENFORCEMENT REJECT", "background: #bada55; color: #000055", value);
+    });
+  }
+  $finalize(resolve, reject) {
+    console.log("finalize", this.rejections, this.resolves, this.all);
+    if (this.rejections.every(__$FinalizeEveryRejection)) {
+      console.log("RESOLVING");
+      resolve(this.resolves);
+    } else {
+      console.log("REJECTING");
+      reject(this.rejections);
+    }
+  }
+};
+
 // (Forge) Section: ts\core\PoolManager.ts
 
+var PoolManager_exports = {};
+__export(PoolManager_exports, {
+  PoolManager: () => PoolManager
+});
 var PoolManager = class _PoolManager {
   static __ClassMap = /* @__PURE__ */ new Map();
   // @-ts-expect-errors
@@ -37339,6 +37500,11 @@ var PoolManager = class _PoolManager {
 
 // (Forge) Section: ts\core\Subscription.ts
 
+var Subscription_exports = {};
+__export(Subscription_exports, {
+  Subscription: () => Subscription,
+  Unsubscribe: () => Unsubscribe
+});
 var Unsubscribe = new class {
 }();
 var Subscription = class {
@@ -37456,6 +37622,10 @@ var Subscription = class {
 
 // (Forge) Section: ts\core\timing\Debounce.ts
 
+var Debounce_exports = {};
+__export(Debounce_exports, {
+  Debouncer: () => Debouncer
+});
 var Debouncer = class {
   _callbackMap = /* @__PURE__ */ new Map();
   constructor() {
@@ -37515,6 +37685,10 @@ var Debouncer = class {
 
 // (Forge) Section: ts\forge\io\ForgeIO.ts
 
+var ForgeIO_exports = {};
+__export(ForgeIO_exports, {
+  ForgeIO: () => ForgeIO
+});
 var $fs = require("node:fs/promises");
 var fs = require("fs");
 var path = require("path");
@@ -37888,22 +38062,19 @@ var LocalRoute = class extends GenericRoute {
     return { mime: mime2, buffer };
   }
 };
-var ForgeRouter = class {
-  _routes = /* @__PURE__ */ new Set();
-  add(route) {
-    this._routes.add(route);
-  }
-  async $resolve(request, response, next) {
-    for (const iForgeRoute of this._routes) {
-      if (iForgeRoute.authorize(request.uri)) {
-        return iForgeRoute.$resolve(request, response, next);
-      }
-    }
-  }
-};
 
 // (Forge) Section: ts\forge\action\ForgeTrigger.ts
 
+var ForgeTrigger_exports = {};
+__export(ForgeTrigger_exports, {
+  ParseTrigger: () => ParseTrigger,
+  RejectTrigger: () => RejectTrigger,
+  ResolveTrigger: () => ResolveTrigger,
+  ResolverValues: () => ResolverValues,
+  SettledTrigger: () => SettledTrigger,
+  SignalTrigger: () => SignalTrigger,
+  WatchTrigger: () => WatchTrigger
+});
 var ResolverValues = /* @__PURE__ */ ((ResolverValues2) => {
   ResolverValues2["Any"] = "any";
   ResolverValues2["All"] = "all";
@@ -38165,6 +38336,10 @@ var ForgeAction = class _ForgeAction extends Subscription {
 
 // (Forge) Section: ts\forge\build\dependency\DependencySorter.ts
 
+var DependencySorter_exports = {};
+__export(DependencySorter_exports, {
+  DependencySorter: () => DependencySorter
+});
 var DependencySorter = class {
   _dependencies;
   _count = 0;
@@ -38280,7 +38455,6 @@ var DependencySorter = class {
 
 // (Forge) Section: ts\forge\build\dependency\DependencyManager.ts
 
-var import_esbuild = require("esbuild");
 var path3 = require("path");
 var DependencyManager = class {
   _fileManifest;
@@ -38317,18 +38491,53 @@ var DependencyManager = class {
     this.footer = "";
   }
   async $sections() {
+    const { transform } = require("esbuild");
     const orderedSections = [];
     for (const { title } of this._dependencyHelper.intersect(this._fileManifest)) {
       if (/node_modules/i.test(title))
         continue;
       if (this._sectionMap.has(title) === false) {
-        const code = String(ForgeIO.File.Read(title, "utf-8"));
-        const transformedResult = await (0, import_esbuild.transform)(code, {
-          // format: "cjs",
-          // platform: "browser",
+        let code = String(ForgeIO.File.Read(title, "utf-8"));
+        const transformedResult = await transform(code, {
           loader: "ts"
+        });
+        code = transformedResult.code.replace(/export\s/, "\n");
+        if (path3.relative("./", title.replace(/\\/g, "/")) == path3.relative("./", this.entry)) {
+        }
+        const sectionEntry = { ...this._inputs[title], code, file: title };
+        orderedSections.push(sectionEntry);
+      } else {
+        orderedSections.push(this._sectionMap.get(title));
+      }
+    }
+    return orderedSections;
+  }
+  has(file) {
+    for (const [key, entry] of Object.entries(this._inputs)) {
+      if (key === file)
+        return true;
+    }
+    return false;
+  }
+  /* public get(file: string): SectionEntry {
+  
+          if (this._inputs[file] === undefined) throw new Error(`file ("${file}") not found in manifest`);
+  
+          return this._inputs[file];
+  
+      } */
+  load(dependencies) {
+    this._dependencyHelper.load(dependencies);
+    return this;
+  }
+};
+
 // (Forge) Section: ts\forge\build\extension\ExportExtension.ts
 
+var ExportExtension_exports = {};
+__export(ExportExtension_exports, {
+  ExportExtension: () => ExportExtension
+});
 var path4 = require("path");
 var ExportExtension = class {
   _mode;
@@ -38381,21 +38590,28 @@ ${content}`;
   }
   async $footer(content) {
     console.log("plugin $footer", content);
-    const exportOutput = "{\n" + this._transformExports.map((val) => `	${val.exportName} : ${val.transformedExport}`).join(",\n") + "\n}";
-    console.log(exportOutput);
     if (this._buildOptions.format === "cjs") {
+      const exportOutput = "{\n" + this._transformExports.map((val) => `	${val.exportName} : ${val.transformedExport}`).join(",\n") + "\n}";
       return `${content}
 
 module.exports = ${exportOutput}
 
 console.log("templated via Extension")`;
     } else if (this._buildOptions.format === "esm") {
+      const exportOutput = "{\n" + this._transformExports.map((val) => {
+        if (val.exportName == val.transformedExport) {
+          return `	${val.exportName}`;
+        } else {
+          return `	${val.transformedExport} as ${val.exportName}`;
+        }
+      }).join(",\n") + "\n}";
       return `${content}
 
-export = ${exportOutput}
+export ${exportOutput}
 
 console.log("templated via Extension")`;
     } else {
+      const exportOutput = "{\n" + this._transformExports.map((val) => `	${val.exportName} : ${val.transformedExport}`).join(",\n") + "\n}";
       return `${content}
 
 ${exportOutput}
@@ -38404,12 +38620,24 @@ console.log("templated via Extension")`;
     }
   }
   async $complete(output) {
+    output = output.replace(`import { createRequire } from 'module';
+const __require = createRequire(import.meta.url);
+
+`, `import { createRequire } from 'module';
+const __require = createRequire(import.meta.url);
+
+`);
     return output;
   }
 };
 
-// (Forge) Section: ts/forge/build/extension/ForgeBuildExtension.ts
-export class ForgeBuildExtension {
+// (Forge) Section: ts\forge\build\extension\ForgeBuildExtension.ts
+
+var ForgeBuildExtension_exports = {};
+__export(ForgeBuildExtension_exports, {
+  ForgeBuildExtension: () => ForgeBuildExtension
+});
+var ForgeBuildExtension = class {
   _source;
   constructor(source) {
     console.log(source.constructor.name, source);
@@ -38448,9 +38676,14 @@ export class ForgeBuildExtension {
     }
     return content;
   }
-}
+};
+
 // (Forge) Section: ts\forge\ForgeStream.ts
 
+var ForgeStream_exports = {};
+__export(ForgeStream_exports, {
+  ForgeStream: () => ForgeStream3
+});
 var ForgeStream3 = class {
   _tasks = /* @__PURE__ */ new Map();
   _iActions = /* @__PURE__ */ new Map();
@@ -38571,6 +38804,10 @@ var ForgeStream3 = class {
 
 // (Forge) Section: ts\forge\ForgeTask.ts
 
+var ForgeTask_exports = {};
+__export(ForgeTask_exports, {
+  ForgeTask: () => ForgeTask3
+});
 var ForgeTask3 = class {
   _forge;
   _iActions = /* @__PURE__ */ new Map();
@@ -38628,6 +38865,11 @@ var ForgeTask3 = class {
 
 // (Forge) Section: ts\forge\model\ForgeModel.ts
 
+var ForgeModel_exports = {};
+__export(ForgeModel_exports, {
+  ForgeModel: () => ForgeModel,
+  ForgeStore: () => ForgeStore
+});
 var ForgeStore = class {
   _iForgeModel;
   _id;
@@ -38984,6 +39226,10 @@ TASK ROUTE
 
 // (Forge) Section: ts\forge\service\AbstractServiceAdapter.ts
 
+var AbstractServiceAdapter_exports = {};
+__export(AbstractServiceAdapter_exports, {
+  AbstractServiceAdapter: () => AbstractServiceAdapter
+});
 var __ForgeProtocol = "forge://";
 var StdioOption = /* @__PURE__ */ ((StdioOption2) => {
   StdioOption2["Pipe"] = "pipe";
@@ -39208,6 +39454,10 @@ var ExecService = class extends AbstractServiceAdapter {
 
 // (Forge) Section: ts\forge\service\ForkService.ts
 
+var ForkService_exports = {};
+__export(ForkService_exports, {
+  ForkService: () => ForkService
+});
 var { spawn: spawn3, fork: fork3, exec: exec3, execSync: execSync3 } = require("child_process");
 var ForkService = class extends AbstractServiceAdapter {
   _source;
@@ -39239,6 +39489,10 @@ var ForkService = class extends AbstractServiceAdapter {
 
 // (Forge) Section: ts\forge\service\SpawnService.ts
 
+var SpawnService_exports = {};
+__export(SpawnService_exports, {
+  SpawnService: () => SpawnService
+});
 var { spawn: spawn4, fork: fork4, exec: exec4, execSync: execSync4 } = require("child_process");
 var SpawnService = class extends AbstractServiceAdapter {
   _source;
@@ -39261,6 +39515,10 @@ var SpawnService = class extends AbstractServiceAdapter {
 
 // (Forge) Section: ts\forge\service\PluginService.ts
 
+var PluginService_exports = {};
+__export(PluginService_exports, {
+  PluginService: () => PluginService
+});
 var PluginService = class extends AbstractServiceAdapter {
   _source;
   _commands;
@@ -39492,6 +39750,13 @@ var Forge3 = class {
 
 // (Forge) Section: ts\forge\ForgeClient.ts
 
+var ForgeClient_exports = {};
+__export(ForgeClient_exports, {
+  ExecuteDelegate: () => ExecuteDelegate,
+  ForgeClient: () => ForgeClient,
+  ResetDelegate: () => ResetDelegate,
+  RouteDelegate: () => RouteDelegate
+});
 var { Worker, isMainThread } = require("worker_threads");
 var $fs4 = require("fs").promises;
 var path7 = require("path");
@@ -39592,50 +39857,58 @@ var ForgeClient = class extends Subscription {
 
 // (Forge) Section: ts\forge\io\ForgeGit.ts
 
-var { spawn: spawn6, fork: fork6, exec: exec6, execSync: execSync6 } = require("child_process");
-var ForgeGit = class _ForgeGit {
-  static async $IsWorkingTree() {
-    const stdio = execSync6("git rev-parse --is-inside-work-tree").toString();
-    if (stdio == "true")
-      return true;
-  }
-  static async $Clone(url4) {
-    return new Promise(function(resolve, reject) {
-      execSync6(`git clone ${url4}`, (error, stdout, stderr) => {
-        if (error) {
-          console.log(`git clone ${url4} failed`);
-          reject({ "reject": `git clone ${url4} failed` });
+var require_ForgeGit = __commonJS({
+  "ts/forge/io/ForgeGit.ts"() {
+    var { spawn: spawn7, fork: fork7, exec: exec7, execSync: execSync7 } = require("child_process");
+    var ForgeGit2 = class _ForgeGit {
+      static async $IsWorkingTree() {
+        const stdio = execSync7("git rev-parse --is-inside-work-tree").toString();
+        if (stdio == "true")
+          return true;
+      }
+      static async $Clone(url4) {
+        return new Promise(function(resolve, reject) {
+          execSync7(`git clone ${url4}`, (error, stdout, stderr) => {
+            if (error) {
+              console.log(`git clone ${url4} failed`);
+              reject({ "reject": `git clone ${url4} failed` });
+            } else {
+              console.log(`git clone ${url4} successful`);
+              resolve({ "resolve": `git clone ${url4} successful` });
+            }
+          });
+        });
+      }
+      static async $Submodule(url4, target) {
+        return new Promise(function(resolve, reject) {
+          execSync7(`git submodule add ${url4} ${target}`, (error, stdout, stderr) => {
+            if (error) {
+              reject({ "reject": `execution error (${error})` });
+              console.log(`git submodule add ${url4} failed`);
+            } else {
+              console.log(`git submodule add ${url4} successful`);
+              resolve({ "resolve": `git submodule add ${url4} successful` });
+            }
+          });
+        });
+      }
+      static async $Place(url4, target) {
+        if (_ForgeGit.$IsWorkingTree()) {
+          return await _ForgeGit.$Submodule(url4, target);
         } else {
-          console.log(`git clone ${url4} successful`);
-          resolve({ "resolve": `git clone ${url4} successful` });
+          return await _ForgeGit.$Clone(url4);
         }
-      });
-    });
+      }
+    };
   }
-  static async $Submodule(url4, target) {
-    return new Promise(function(resolve, reject) {
-      execSync6(`git submodule add ${url4} ${target}`, (error, stdout, stderr) => {
-        if (error) {
-          reject({ "reject": `execution error (${error})` });
-          console.log(`git submodule add ${url4} failed`);
-        } else {
-          console.log(`git submodule add ${url4} successful`);
-          resolve({ "resolve": `git submodule add ${url4} successful` });
-        }
-      });
-    });
-  }
-  static async $Place(url4, target) {
-    if (_ForgeGit.$IsWorkingTree()) {
-      return await _ForgeGit.$Submodule(url4, target);
-    } else {
-      return await _ForgeGit.$Clone(url4);
-    }
-  }
-};
+});
 
 // (Forge) Section: ts\forge\model\StorageStream.ts
 
+var StorageStream_exports = {};
+__export(StorageStream_exports, {
+  FileStorageStream: () => FileStorageStream
+});
 var $fs5 = require("node:fs/promises");
 var FileStorageStream = class {
   _$buffer;
@@ -39657,6 +39930,10 @@ var FileStorageStream = class {
 
 // (Forge) Section: ts\forge\model\_SimpleForgeStorage.ts
 
+var SimpleForgeStorage_exports = {};
+__export(SimpleForgeStorage_exports, {
+  SimpleForgeStorage: () => SimpleForgeStorage
+});
 var SimpleForgeStorage = class extends ForgeModel {
   async _routeSave(request, response, next) {
     const taskName = request.params.task;
@@ -39704,27 +39981,24 @@ var SimpleForgeStorage = class extends ForgeModel {
   }
 };
 
-// (Forge) Section: ts/forge/server/Forms.ts
-class AbstractBox {
-  _value;
-  constructor(value) {
-    this._value = value;
+// (Forge) Section: ts\forge\server\Forms.ts
+
+var require_Forms = __commonJS({
+  "ts/forge/server/Forms.ts"() {
   }
-  parse() {
-  }
-}
-// (Forge) Section: ts/forge/server/route/ForgeRouter.ts
-export class ForgeRouter {
-  _routes;
-  /* public async $resolve(url): Promise<{ mime: string, buffer: Buffer }> {
-  
-  
-  
-      } */
-}
+});
+
+// (Forge) Section: ts\forge\server\route\ForgeRouter.ts
+
+var ForgeRouter_exports = {};
+
 // (Forge) Section: ts\forge\service\RestService.ts
 
-var { spawn: spawn7, fork: fork7, exec: exec7, execSync: execSync7 } = require("child_process");
+var RestService_exports = {};
+__export(RestService_exports, {
+  RestService: () => RestService
+});
+var { spawn: spawn6, fork: fork6, exec: exec6, execSync: execSync6 } = require("child_process");
 var RestService = class extends AbstractServiceAdapter {
   _source;
   _command;
@@ -39763,7 +40037,7 @@ var RestService = class extends AbstractServiceAdapter {
     const pipeError = this._bindings.get(this._pipeError);
     const command = this._command.replace(/\{\{command\}\}/g, data.command);
     return new Promise(function(resolve, reject) {
-      const child = exec7(command, { stdio: "pipe" });
+      const child = exec6(command, { stdio: "pipe" });
       child.on("exit", function(error, stdout, stderr) {
         if (error) {
           reject({ name, "reject": `execution error (${error})` });
@@ -39779,6 +40053,77 @@ var RestService = class extends AbstractServiceAdapter {
     }.bind(this));
   }
 };
+
+// (Forge) Section: ts\forge\storage\AbstractForgeStorage.ts
+
+var AbstractForgeStorage_exports = {};
+__export(AbstractForgeStorage_exports, {
+  ForgeStorage: () => ForgeStorage
+});
+var ForgeStorage = class {
+  _in;
+  _out;
+  _$ready;
+  constructor() {
+  }
+  async *[Symbol.asyncIterator]() {
+    this._$ready[0];
+    for (const serialize of this._in) {
+      yield serialize;
+    }
+  }
+  async $write(serialize) {
+  }
+  async $read() {
+    return {};
+  }
+  async $flush() {
+    return this;
+  }
+};
+
+// (Forge) Section: ts\index.ts
+
+var ForgeGit = __toESM(require_ForgeGit());
+var Forms = __toESM(require_Forms());
+try {
+  Accessor_exports;
+  Argument_exports;
+  Tree_exports;
+  Core_exports;
+  Debug_exports;
+  Enforcement_exports;
+  PoolManager_exports;
+  Subscription_exports;
+  Debounce_exports;
+  ForgeAction_exports;
+  ForgeTrigger_exports;
+  DependencyManager_exports;
+  DependencySorter_exports;
+  ExportExtension_exports;
+  ForgeBuildExtension_exports;
+  Forge_exports;
+  ForgeClient_exports;
+  ForgeStream_exports;
+  ForgeTask_exports;
+  ForgeGit;
+  ForgeIO_exports;
+  ForgeModel_exports;
+  StorageStream_exports;
+  SimpleForgeStorage_exports;
+  ForgeServer_exports;
+  Forms;
+  ForgeRoute_exports;
+  ForgeRouter_exports;
+  AbstractServiceAdapter_exports;
+  ExecService_exports;
+  ForkService_exports;
+  PluginService_exports;
+  RestService_exports;
+  SpawnService_exports;
+  AbstractForgeStorage_exports;
+} catch (err) {
+}
 /*! Bundled license information:
 
 mime-db/index.js:
@@ -40270,29 +40615,6 @@ compression/index.js:
    * MIT Licensed
    *)
 */
-// (Forge) Section: ts/forge/storage/AbstractForgeStorage.ts
-export class ForgeStorage {
-  _in;
-  _out;
-  _$ready;
-  constructor() {
-  }
-  async *[Symbol.asyncIterator]() {
-    this._$ready[0];
-    for (const serialize of this._in) {
-      yield serialize;
-    }
-  }
-  async $write(serialize) {
-  }
-  async $read() {
-    return {};
-  }
-  async $flush() {
-    return this;
-  }
-}
-// (Forge) Section: ts/index.ts
 // (Forge) Footer:
 
 
@@ -40309,6 +40631,7 @@ module.exports = {
 	CompositeArguments : CompositeArguments,
 	Tree : Tree,
 	DebugFormatter : DebugFormatter,
+	Enforce : Enforce,
 	PoolManager : PoolManager,
 	Subscription : Subscription,
 	Debouncer : Debouncer,
@@ -40349,7 +40672,6 @@ module.exports = {
 	ForgeClient : ForgeClient,
 	FileStorageStream : FileStorageStream,
 	SimpleForgeStorage : SimpleForgeStorage,
-	ForgeRouter : ForgeRouter,
 	RestService : RestService,
 	ForgeStorage : ForgeStorage
 }

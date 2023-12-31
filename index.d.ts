@@ -295,7 +295,8 @@ declare module "onyx-ignition-forge-core" {
 	    static Reclaim(instance: any): void;
 	}
 	
-		export type Notification = string | RegExp | unknown;
+		import { IPoolable } from "./PoolManager";
+	export type Notification = string | RegExp | unknown;
 	export interface ISubscription {
 	    hasSubscription(value: Notification): boolean;
 	    subscribe(notify: Notification, callback: Function, once?: number): void;
@@ -367,8 +368,7 @@ declare module "onyx-ignition-forge-core" {
 	    clear(): void;
 	}
 	
-		/// <reference types="node" />
-	/**
+		/// <reference types="node" />import { Subscription } from "../../core/Subscription";import { ForgeTask } from "../ForgeTask";import { IServiceAdapter } from "../service/AbstractServiceAdapter";/**
 	 * The raw data from a JSON for action data. Pulled from a `.Forge` or supplied from a developer
 	 *
 	 * @typedef {Object} ActionData
@@ -455,7 +455,8 @@ declare module "onyx-ignition-forge-core" {
 	    }>;
 	}
 	
-		export declare enum ResolverValues {
+		import { ForgeStream } from "../ForgeStream";
+	export declare enum ResolverValues {
 	    Any = "any",
 	    All = "all"
 	}
@@ -518,7 +519,8 @@ declare module "onyx-ignition-forge-core" {
 	
 		type ImportEntrty = {
 	    path: string;
-	    kind: "require-call" | "    original?: string;
+	    kind: "require-call" | "import-statement";
+	    original?: string;
 	    external?: boolean;
 	};
 	export type SectionEntry = {
@@ -573,7 +575,8 @@ declare module "onyx-ignition-forge-core" {
 	}
 	
 	
-		export declare class ExportExtension implements IForgeBuildExtension {
+		import { IForgeBuildExtension } from "./ForgeBuildExtension";
+	export declare class ExportExtension implements IForgeBuildExtension {
 	    private _base;
 	    private _namespace;
 	    constructor();
@@ -584,7 +587,8 @@ declare module "onyx-ignition-forge-core" {
 	    $complete(output: any): Promise<string>;
 	}
 	
-		export interface IForgeBuildExtension {
+		import { SectionEntry } from "../dependency/DependencyManager";
+	export interface IForgeBuildExtension {
 	    $start(entry: string, manifest: Record<string, unknown>, BuildOptions: Record<string, unknown>): Promise<void>;
 	    $header(content: string): Promise<string>;
 	    $section(content: string, sectionEntry: SectionEntry): Promise<string>;
@@ -601,7 +605,7 @@ declare module "onyx-ignition-forge-core" {
 	    $complete(content: string): Promise<string>;
 	}
 	
-		export declare class Forge {
+		import { Serialize } from "../core/Core";import { ForgeServer } from "./server/ForgeServer";export declare class Forge {
 	    static Search(glob: string): void;
 	    private _forgeServer;
 	    private readonly _taskMap;
@@ -631,8 +635,7 @@ declare module "onyx-ignition-forge-core" {
 	    $save(): Promise<void>;
 	}
 	
-		/// <reference types="node" />
-	interface IClientDelegate {
+		/// <reference types="node" />import { Subscription } from "../core/Subscription";interface IClientDelegate {
 	    $execute(...data: Serialize[]): Promise<Serialize>;
 	}
 	declare class AbstractDelegate implements IClientDelegate {
@@ -670,7 +673,8 @@ declare module "onyx-ignition-forge-core" {
 	}
 	
 	
-		export declare class ForgeStream {
+		import { Serialize } from "../core/Core";import { ForgeTask } from "./ForgeTask";
+	export declare class ForgeStream {
 	    private readonly _tasks;
 	    private readonly _iActions;
 	    private readonly _bindings;
@@ -691,7 +695,8 @@ declare module "onyx-ignition-forge-core" {
 	    $signal(signal: string, data?: Serialize, race?: number): Promise<Serialize>;
 	}
 	
-		export type TaskConfig = {
+		import { Serialize } from "../core/Core";import { ActionConfig, IAction } from "./action/ForgeAction";
+	export type TaskConfig = {
 	    name: string;
 	    enabled: boolean;
 	    actions: ActionConfig[];
@@ -740,7 +745,7 @@ declare module "onyx-ignition-forge-core" {
 	}
 	
 	
-		/// <reference types="node" />
+		/// <reference types="node" />import { ForgeStore } from "./ForgeModel";
 	export interface IForgeStorageStream {
 	}
 	export declare class FileStorageStream {
@@ -752,13 +757,12 @@ declare module "onyx-ignition-forge-core" {
 	    $write(buffer: Buffer): Promise<void>;
 	}
 	
-		export declare class SimpleForgeStorage extends ForgeModel {
+		import { ForgeServer } from "../server/ForgeServer";export declare class SimpleForgeStorage extends ForgeModel {
 	    private _routeSave;
 	    connect(forgeServer: ForgeServer): this;
 	}
 	
-		/// <reference types="node" />
-	type StoreEntry = {
+		/// <reference types="node" />import { IForgeModel } from "../model/ForgeModel";type StoreEntry = {
 	    mime: string;
 	    buffer: Buffer;
 	};
@@ -810,8 +814,7 @@ declare module "onyx-ignition-forge-core" {
 	    parse(): void;
 	}
 	
-		/// <reference types="node" />
-	type RequestDelegate = Function;
+		/// <reference types="node" />type RequestDelegate = Function;
 	declare enum RequestMethod {
 	    Post = 0,
 	    Get = 1,
@@ -892,11 +895,12 @@ declare module "onyx-ignition-forge-core" {
 	}
 	
 	
-		export declare class ForgeRouter {
+		import { IForgeRoute } from "./ForgeRoute";
+	export declare class ForgeRouter {
 	    protected _routes: IForgeRoute[];
 	}
 	
-		/// <reference types="node" />
+		/// <reference types="node" />import { ISubscription, Subscription } from "../../core/Subscription";
 	declare enum StdioOption {
 	    Pipe = "pipe",
 	    Inherit = "inherit",
@@ -946,7 +950,7 @@ declare module "onyx-ignition-forge-core" {
 	}
 	
 	
-		export declare class ExecService extends AbstractServiceAdapter {
+		import { Serialize } from "../../core/Core";export declare class ExecService extends AbstractServiceAdapter {
 	    private _source;
 	    private _command;
 	    private _config;
@@ -956,7 +960,7 @@ declare module "onyx-ignition-forge-core" {
 	    $signal(signal: string, data: Serialize, race: number): Promise<Serialize>;
 	}
 	
-		export declare class ForkService extends AbstractServiceAdapter {
+		import { Serialize } from "../../core/Core";export declare class ForkService extends AbstractServiceAdapter {
 	    private _source;
 	    private _commands;
 	    constructor(name: string, config: ServiceConfig, source?: any);
@@ -964,7 +968,7 @@ declare module "onyx-ignition-forge-core" {
 	    write(header: Serialize, data: Serialize): void;
 	}
 	
-		export declare class PluginService extends AbstractServiceAdapter {
+		import { Serialize } from "../../core/Core";export declare class PluginService extends AbstractServiceAdapter {
 	    private _source;
 	    private _commands;
 	    constructor(name: string, config: ServiceConfig, source?: any);
@@ -973,7 +977,7 @@ declare module "onyx-ignition-forge-core" {
 	    $signal(signal: string, data: Serialize, race: number): Promise<Serialize>;
 	}
 	
-		export declare class RestService extends AbstractServiceAdapter {
+		import { Serialize } from "../../core/Core";export declare class RestService extends AbstractServiceAdapter {
 	    private _source;
 	    private _command;
 	    private _config;
@@ -983,7 +987,7 @@ declare module "onyx-ignition-forge-core" {
 	    $signal(signal: string, data: Serialize, race: number): Promise<Serialize>;
 	}
 	
-		export declare class SpawnService extends AbstractServiceAdapter {
+		import { Serialize } from "../../core/Core";export declare class SpawnService extends AbstractServiceAdapter {
 	    private _source;
 	    private _commands;
 	    constructor(name: string, config: ServiceConfig, source?: any);
@@ -991,7 +995,8 @@ declare module "onyx-ignition-forge-core" {
 	    write(header: Serialize, ...data: Serialize[]): void;
 	}
 	
-		interface IForgeStorage {
+		import { Serialize } from "../../core/Core";
+	interface IForgeStorage {
 	}
 	export declare class ForgeStorage implements IForgeStorage {
 	    private _in;
@@ -1006,5 +1011,6 @@ declare module "onyx-ignition-forge-core" {
 	
 	
 		
+	
 	
 }
