@@ -1,4 +1,4 @@
-declare module "onyx-ignition-forge-core" {
+declare module "@onyx-ignition/forge-core" {
 	export declare class Accessor {
 	    private _source;
 	    private _seperator;
