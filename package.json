@@ -1,6 +1,6 @@
 {
   "name": "@onyx-ignition/forge-core",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "changed",
   "main": "./index.js",
   "module": "./index.mjs",
